@@ -76,6 +76,18 @@ export function useVoiceCall() {
     }
 
 
+    function onConnectError(error) {
+      console.error(
+        "Socket connection error:",
+        error
+      );
+
+      setError(
+        "Unable to connect to the backend. Please refresh the page and try again."
+      );
+    }
+
+
     function onCallStarted(data) {
       console.log(
         "📞 Call started:",
@@ -232,6 +244,11 @@ export function useVoiceCall() {
     );
 
     socket.on(
+      "connect_error",
+      onConnectError
+    );
+
+    socket.on(
       "call-started",
       onCallStarted
     );
@@ -286,6 +303,11 @@ export function useVoiceCall() {
       socket.off(
         "disconnect",
         onDisconnect
+      );
+
+      socket.off(
+        "connect_error",
+        onConnectError
       );
 
       socket.off(
@@ -345,7 +367,49 @@ export function useVoiceCall() {
       setReport(null);
 
       if (!socket.connected) {
-        socket.connect();
+        try {
+          await new Promise(
+            (resolve, reject) => {
+              const handleConnect = () => {
+                socket.off(
+                  "connect_error",
+                  handleError
+                );
+                resolve();
+              };
+
+              const handleError = (err) => {
+                socket.off(
+                  "connect",
+                  handleConnect
+                );
+                reject(err);
+              };
+
+              socket.once(
+                "connect",
+                handleConnect
+              );
+
+              socket.once(
+                "connect_error",
+                handleError
+              );
+
+              socket.connect();
+            }
+          );
+        } catch (connectError) {
+          console.error(
+            "Socket connect failed:",
+            connectError
+          );
+
+          setError(
+            "Unable to connect to the backend. Please refresh the page and try again."
+          );
+          return;
+        }
       }
 
       socket.emit(

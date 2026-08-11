@@ -1,6 +1,8 @@
 
 const { Server } = require("socket.io");
 
+const env = require("../config/env");
+
 const {
   createSession,
   getSession,
@@ -36,11 +38,28 @@ const {
 // ============================================================
 
 function initializeSocket(server) {
+  const allowedOrigins = [
+    env.clientUrl,
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+  ].filter(Boolean);
+
   const io = new Server(server, {
     cors: {
-      origin:
-        process.env.CLIENT_URL ||
-        "http://localhost:5173",
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+          return;
+        }
+
+        callback(
+          new Error(
+            `Socket CORS blocked: ${origin}`
+          )
+        );
+      },
 
       methods: ["GET", "POST"],
 
