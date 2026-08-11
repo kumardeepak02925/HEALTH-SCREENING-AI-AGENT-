@@ -1,0 +1,29 @@
+{
+  "name": "health-ai-backend",
+  "version": "1.0.0",
+  "description": "AI Health Screening Voice Assistant Backend",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "socket.io",
+    "openai",
+    "health-ai"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@google/genai": "^2.16.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
