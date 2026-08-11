@@ -6,7 +6,10 @@ const SOCKET_URL =
 
 export const socket = io(SOCKET_URL, {
   autoConnect: false,
-  transports: ["websocket"],
+  transports: ["polling", "websocket"],
+  reconnection: true,
+  reconnectionAttempts: 10,
+  reconnectionDelay: 1000,
 });
 
 export default socket;
