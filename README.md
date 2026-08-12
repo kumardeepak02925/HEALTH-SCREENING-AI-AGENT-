@@ -21,16 +21,18 @@ This repository contains a voice-based health screening application with a Node.
    ```
 3. Create a `.env` file in `backend/` with the following values:
    ```env
-   PORT=5000
-   CLIENT_URL=http://localhost:5173
+  PORT=5000
+CLIENT_URL=http://localhost:5173
 
-   SARVAM_API_KEY=your_sarvam_api_key
-   GEMINI_API_KEY=your_gemini_api_key
+SARVAM_API_KEY=sk_kwea43na_1LMPwvarmZzsNtYTiagC8Adp
 
-   SARVAM_STT_MODEL=saaras:v3
-   SARVAM_TTS_MODEL=bulbul:v3
-   SARVAM_TTS_VOICE=aditya
-   GEMINI_MODEL=gemini-3.5-flash-lite
+GEMINI_API_KEY=AQ.Ab8RN6IqkeS5OY5X3SmSKyOkZ7ujKX73Nasy9Yrpx9KVJx8GRQ
+
+SARVAM_STT_MODEL=saaras:v3
+SARVAM_TTS_MODEL=bulbul:v3
+SARVAM_TTS_VOICE=aditya
+
+GEMINI_MODEL=gemini-3.5-flash-lite
    ```
 4. Start the backend:
    ```bash
