@@ -1,34 +1,29 @@
 const http = require("http");
 
 const app = require("./app");
-
 const env = require("./config/env");
 
-const initializeSocket =
-  require("./websocket/call.socket");
+const initializeSocket = require("./websocket/call.socket");
 
-const {
-  info,
-} = require("./utils/logger");
+const { info } = require("./utils/logger");
 
-const server =
-  http.createServer(app);
+// Create HTTP server
+const server = http.createServer(app);
 
+// Initialize Socket.IO
 initializeSocket(server);
 
+// Start server
 server.listen(
   env.port,
+  "0.0.0.0",
   () => {
-    info(
-      `Server running on http://localhost:${env.port}`
-    );
-
-    info(
-      `WebSocket server ready`
-    );
+    info(`Server running on port ${env.port}`);
+    info("WebSocket server ready");
   }
 );
 
+// Handle unhandled promise rejections
 process.on(
   "unhandledRejection",
   (error) => {
@@ -39,6 +34,7 @@ process.on(
   }
 );
 
+// Handle uncaught exceptions
 process.on(
   "uncaughtException",
   (error) => {
